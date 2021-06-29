@@ -7,7 +7,7 @@ import (
 )
 
 const IndexMagicHeader uint32 = 0x58485053
-const SPHVersion uint32 = 60
+const SPHVersion uint32 = 63
 
 type sph struct {
 	metahdr

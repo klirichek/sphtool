@@ -60,7 +60,7 @@ func main() {
 
 	if inFile == nil || *inFile == "" {
 		fmt.Printf("SPHtool v %s - sph and meta files converter\n", version)
-		fmt.Printf("Copyright (c) 2020 Alexey N. Vinogradov (a.n.vinogradov@gmail.com)\n")
+		fmt.Printf("Copyright (c) 2020-2021 Alexey N. Vinogradov (a.n.vinogradov@gmail.com)\n")
 		fmt.Printf("Supports sph v. %d, meta v. %d, pq meta v. %d\n", SPHVersion, MetaVersion, MetaVersionPq)
 		flag.Usage()
 		os.Exit(1)

@@ -19,10 +19,11 @@ type indexsettings struct {
 	IndexTokenFilter                                         string
 	BlobUpdateSpace                                          uint64
 	SkiplistBlockSize                                        uint32
-	HitlessFiles											 string
+	HitlessFiles                                             string
+	AttrEngine                                               uint32
 }
 
-func (c *indexsettings) load (r io.Reader, ver uint32) {
+func (c *indexsettings) load(r io.Reader, ver uint32) {
 	c.MinPrefixLen, c.MinInfixLen, c.MaxSubstringLen = getInt(r), getInt(r), getInt(r)
 	c.HtmlStrip = getByteBool(r)
 	c.HtmlIndexAttrs, c.HtmlRemoveElements = getString(r), getString(r)
@@ -39,11 +40,15 @@ func (c *indexsettings) load (r io.Reader, ver uint32) {
 	c.IndexTokenFilter = getString(r)
 	c.BlobUpdateSpace = getUint64(r)
 	c.SkiplistBlockSize = 128
-	if ver>=56 {
+	if ver >= 56 {
 		c.SkiplistBlockSize = getDword(r)
 	}
-	if ver>=60 {
+	if ver >= 60 {
 		c.HitlessFiles = getString(r)
+	}
+
+	if ver >= 63 {
+		c.AttrEngine = getDword(r)
 	}
 }
 
@@ -70,10 +75,14 @@ func (c *indexsettings) save(w io.Writer, ver uint32) {
 	saveString(w, c.RLPContext)
 	saveString(w, c.IndexTokenFilter)
 	saveUint64(w, c.BlobUpdateSpace)
-	if ver>=56 {
+	if ver >= 56 {
 		saveDword(w, c.SkiplistBlockSize)
 	}
-	if ver>=60 {
+	if ver >= 60 {
 		saveString(w, c.HitlessFiles)
+	}
+
+	if ver >= 63 {
+		saveDword(w, c.AttrEngine)
 	}
 }
